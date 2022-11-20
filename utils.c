@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 17:48:49 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/14 17:49:52 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/11/16 17:22:34 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,15 @@ long	ft_atoi(const char *str)
 	isneg = 0;
 	i = ft_isspace(str, i);
 	isneg = ft_issneg(str, &i, isneg);
-	while (str[i] != '\0' && ft_isdigit(str[i]))
+	while (str[i] != '\0')
 	{
+		if (ft_isdigit(str[i]) == 0)
+			return (-2147483648);
 		nbr = (nbr * 10) + (str[i++] - '0');
+		if (isneg == 1 && nbr > 2147483648)
+			return (-2147483648);
+		if (isneg == 0 && nbr > 2147483647)
+			return (-2147483648);
 	}
 	if (isneg == 1)
 		return (-nbr);

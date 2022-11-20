@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:12:46 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/14 17:53:11 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/11/20 17:38:38 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ int	join_philos(t_philo *philo, t_instr *instr)
 
 int	start_philo(int argc, char **argv)
 {
-	long	i;
-	long	j;
 	t_philo	*philo;
 	t_instr	*instr;
 
-	j = 0;
-	i = 1;
 	instr = init_instr(argc, argv);
+	if (!instr)
+		return (1);
 	philo = malloc(sizeof(t_philo) * instr->philos);
 	if (!philo)
 	{
@@ -73,6 +71,28 @@ int	start_philo(int argc, char **argv)
 	return (1);
 }
 
+int	verif_cypher(char **argv)
+{
+	if (ft_atoi(argv[1]) <= 0)
+	{
+		write(1, "Need at least one philosopher on the table\n", 43);
+		return (1);
+	}
+	if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0 || ft_atoi(argv[4]) <= 0)
+	{
+		write(1,
+			"All args have to be positive and less than the max_int\n", 55);
+		return (1);
+	}
+	if (argv[5] && ft_atoi(argv[5]) <= 0)
+	{
+		write(1,
+			"All args have to be positive and less than the max_int\n", 55);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	if (argc < 5)
@@ -85,11 +105,9 @@ int	main(int argc, char **argv)
 		write(1, "Too much arguments\n", 19);
 		return (1);
 	}
-	if (ft_atoi(argv[1]) <= 0)
-	{
-		write(1, "Need at least one philosopher on the table\n", 43);
+	if (verif_cypher(argv))
 		return (1);
-	}
-	start_philo(argc, argv);
+	if (start_philo(argc, argv) == 1)
+		return (1);
 	return (0);
 }

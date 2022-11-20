@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 17:50:06 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/14 17:55:34 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/11/16 16:51:47 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ void	print_time(t_philo *philo, const char *message)
 		if (!ft_strcmp(message, "has taken a fork"))
 			printf("\033[32m%llu %ld %s\n\033[0m", time,
 				philo->place + 1, message);
-		else if (!ft_strcmp(message, "is eating"))
-			printf("\033[36m%llu %ld %s\n\033[0m", time,
-				philo->place + 1, message);
 		else if (!ft_strcmp(message, "is sleeping"))
 			printf("\033[30m%llu %ld %s\n\033[0m", time,
 				philo->place + 1, message);
 		else if (!ft_strcmp(message, "is thinking"))
 			printf("\033[35m%llu %ld %s\n\033[0m", time,
+				philo->place + 1, message);
+		else if (!ft_strcmp(message, "is eating"))
+			printf("\033[36m%llu %ld %s\n\033[0m", time,
 				philo->place + 1, message);
 		if (!ft_strcmp(message, "died"))
 			printf("\033[31m%llu %ld %s\n\033[0m", time,

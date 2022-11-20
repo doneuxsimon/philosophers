@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 17:54:00 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/16 16:21:48 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/11/20 17:35:12 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_instr
 	long					t_die;
 	long					t_eat;
 	long					t_sleep;
-	long					must_eat;
+	pthread_mutex_t			*mutex;
+	atomic_uint_fast64_t	must_eat;
 	atomic_int				philos_finished;
 	atomic_uint_fast64_t	start_time;
 	pthread_mutex_t			print;
@@ -38,10 +39,10 @@ typedef struct s_instr
 typedef struct s_philo
 {
 	long					place;
-	long					times_eaten;
+	atomic_uint_fast64_t	times_eaten;
 	atomic_uint_fast64_t	last_meal;
 	pthread_t				philo;
-	pthread_mutex_t			mutex;
+	pthread_mutex_t			mutex_eat;
 	struct s_instr			*instr;
 	struct s_philo			*next;
 	struct s_philo			*before;
@@ -61,5 +62,9 @@ int			init_mutex(t_philo *philo, t_instr *instr);
 int			create_philos(t_philo *philo, t_instr *instr);
 int			join_philos(t_philo *philo, t_instr *instr);
 int			start_philo(int argc, char **argv);
+int			verif_cypher(char **argv);
+int			verif_cypher(char **argv);
+void		destroy_function(t_philo *philo);
+int			error_mutex(t_philo *philo);
 
 #endif

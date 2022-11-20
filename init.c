@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 17:47:47 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/14 17:52:27 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:27:22 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_instr	*init_instr(int argc, char **argv)
 	t_instr	*instr;
 
 	instr = malloc(sizeof(t_instr));
+	if (!instr)
+		return (NULL);
 	instr->active = 1;
 	instr->philos = ft_atoi(argv[1]);
 	instr->t_die = ft_atoi(argv[2]);
@@ -51,27 +53,36 @@ t_instr	*init_instr(int argc, char **argv)
 	return (instr);
 }
 
+int	error_mutex(t_philo *philo)
+{
+	free(philo);
+	perror("Failed to init mutex");
+	return (0);
+}
+
 int	init_mutex(t_philo *philo, t_instr *instr)
 {
 	int	i;
 
 	i = 0;
+	instr->mutex = malloc(sizeof(pthread_mutex_t) * instr->philos);
+	if (!instr->mutex)
+		return (0);
 	while (i < instr->philos)
 	{
-		if (pthread_mutex_init(&philo[i].mutex, NULL) != 0)
-		{
-			free(philo);
-			perror("Failed to init mutex");
-			return (0);
-		}
+		if (pthread_mutex_init(&(instr)->mutex[i], NULL) != 0)
+			return (error_mutex(philo));
+		i++;
+	}
+	i = 0;
+	while (i < instr->philos)
+	{
+		if (pthread_mutex_init(&philo[i].mutex_eat, NULL) != 0)
+			return (error_mutex(philo));
 		i++;
 	}
 	if (pthread_mutex_init(&(instr->print), NULL) != 0)
-	{
-		free(philo);
-		perror("Failed to init mutex");
-		return (0);
-	}
+		return (error_mutex(philo));
 	philo_init(philo, instr);
 	return (1);
 }
