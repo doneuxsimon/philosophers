@@ -6,7 +6,7 @@
 /*   By: sdoneux <sdoneux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:12:46 by sdoneux           #+#    #+#             */
-/*   Updated: 2022/11/20 17:38:38 by sdoneux          ###   ########.fr       */
+/*   Updated: 2022/12/07 17:27:00 by sdoneux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,19 @@ int	start_philo(int argc, char **argv)
 	if (!philo)
 	{
 		free(instr);
-		return (0);
+		return (1);
 	}
 	if (!init_mutex(philo, instr))
-		return (0);
+		return (1);
 	if (!create_philos(philo, instr))
-		return (0);
+		return (1);
 	check_death(philo);
 	if (!join_philos(philo, instr))
-		return (0);
+		return (1);
+	free(instr->mutex);
+	free(instr);
 	free(philo);
-	return (1);
+	return (0);
 }
 
 int	verif_cypher(char **argv)

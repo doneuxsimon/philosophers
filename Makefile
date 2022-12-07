@@ -12,8 +12,7 @@ RM = rm -f
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -fsanitize=address
-
+CFLAGS = -Wall -Werror -Wextra -pthread
 $(NAME):	$(OBJS)
 			$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
